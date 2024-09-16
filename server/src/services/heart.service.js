@@ -19,6 +19,7 @@ class HeartService {
     }
 
     static async search(keyword) {
+        keyword = keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         const query = {
             $or: [
                 { "Doc_No": { "$regex": keyword, "$options": "i" } }, 
