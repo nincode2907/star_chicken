@@ -12,7 +12,8 @@ const app = express();
 // }
 const whitelist = [
     'http://localhost',
-    // '192.168.1.6'
+    '192.168.1.6',
+    '192.168.1.8',
 ];
 
 // middlewares
