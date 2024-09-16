@@ -51,7 +51,7 @@ def get_data_to_excel(path):
         df.to_excel('outputVietinBank.xlsx', index=False)
     # return df
 
-get_data_to_excel('./pdf/ung-ho-mttq-viet-nam-vietinbank.pdf')
+# get_data_to_excel('./pdf/ung-ho-mttq-viet-nam-vietinbank.pdf')
 def get_data_to_mongo(path):
     client = MongoClient(connection_string)
     db = client[db_name]
@@ -60,7 +60,7 @@ def get_data_to_mongo(path):
     dataframe = []
     count = 1
     start_time = time.time()
-    source = ObjectId("66e7c28840e40de97336dc87")
+    source = ObjectId("66e7c314aff2ab25af37b768")
     with pdfplumber.open(path) as pdf:
         totalPages = pdf.pages
         for page in pdf.pages:
@@ -68,18 +68,18 @@ def get_data_to_mongo(path):
             page.close()
             if table is not None:
                 if count == 1:
-                    table = table[1:]
+                    table = table[2:]
                 for row in table:
                     if row[0] != None:
                         if row[0] == "Date":
                             continue
                         date = extract_date_from_time(row[1])
-                        amount = int(row[2].replace('.', ''))
+                        amount = int(row[3].replace('.', ''))
                         dataframe.append({
                             "Date": date,
                             "Doc_No": row[0],
                             "Amount": amount,
-                            "Content": row[3],
+                            "Content": row[2],
                             "Page": count,
                             "Source": source
                         }) 
@@ -98,7 +98,7 @@ def get_data_to_mongo(path):
                     print("No data to insert")
             count += 1
         df = pd.DataFrame(dataframe)
-        df.to_excel('outputBIDV.xlsx', index=False)
         client.close()
+        print("Completed 100%")
         
-# get_data_to_mongo('./pdf/Sao-ke-BIDV.pdf')
+get_data_to_mongo('./pdf/ung-ho-mttq-viet-nam-vietinbank.pdf')

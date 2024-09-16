@@ -119,8 +119,9 @@ function App() {
         <thead>
           <tr>
             <th scope="col" className='column-doc-custome'>Số Hóa Đơn</th>
+            <th scope="col" className='text-center'>Số tiền</th>
             <th scope="col" className='text-center'>Nguồn</th>
-            <th scope="col">Số tiền</th>
+            <th scope="col" className='text-center'>Trang</th>
             <th scope="col" className='text-center'>Nội dung giao dịch</th>
           </tr>
         </thead>
@@ -128,8 +129,9 @@ function App() {
           {data.map((data, i) => (
             <tr key={i}>
               <td dangerouslySetInnerHTML={{ __html: highlightKeyword(data.Doc_No, keywordSearched) }} />
-              <td className='text-center column-source-custome'>{data.Source.title}</td>
               <td className='column-amount-custome'>{Number(data.Amount).toLocaleString('vi-VN')} đ</td>
+              <td className='text-center column-source-custome'>{data.Source.title}</td>
+              <td className='text-center'>{data.Page}</td>
               <td dangerouslySetInnerHTML={{ __html: highlightKeyword(data.Content, keywordSearched) }} />
             </tr>
           ))}
