@@ -2,10 +2,11 @@
 
 const { InternalError } = require("../core/response/error.response");
 const heartModel = require("../models/heart.model");
+const sourceModel = require("../models/source.model");
 
 class HeartService {
     static async started () {
-        const data = await heartModel.find({ "Page": { "$in": [1, 2] } });
+        const data = await heartModel.find({ "Page": { "$in": [1, 2] } }).populate('Source', 'title');
         if (!data) {
             throw new InternalError("Couldn't find any data! Please try again later.");
         }
@@ -32,7 +33,7 @@ class HeartService {
         const start = Date.now(); 
 
         const totalCount = await heartModel.countDocuments(query);
-        const data = await heartModel.find(query).limit(100);
+        const data = await heartModel.find(query).populate('Source', 'title').limit(100);
         
         const end = Date.now(); 
         const elapsedTime = (end - start) / 1000 / 2;
@@ -46,6 +47,30 @@ class HeartService {
                 elapsedTime,
                 data
             }
+        }
+    }
+
+    static async create() {
+        const isDisible = true;
+        if (isDisible) {
+            throw new InternalError("This feature is disabled!");
+        }
+        
+        const data = {
+            "title": "Vietinbank (10-12/09)",
+            "description": "Danh sách sao kê ủng hộ đồng bào miền Bắc của MTTQ VN ngân hàng VIETINBANK từ 10/9/2024 đến 12/9/2024 (bao gồm 2.009 trang).",
+            "url": "https://cdn.thuvienphapluat.vn/uploads/laodongtienluong/20230301/LA/12.9.2024/ung-ho-mttq-viet-nam-vietinbank.pdf"
+        };
+
+        const response = await sourceModel.create(data);
+        if (!response) {
+            throw new InternalError("Couldn't create new data! Please try again later.");
+        }
+        return {
+            status: 200,
+            message: "Success",
+            code: "success",
+            data: response
         }
     }
 }

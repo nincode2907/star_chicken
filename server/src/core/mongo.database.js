@@ -1,7 +1,7 @@
 const { db: {host, port, name} } = require('./index.config');
 
 const mongoose = require('mongoose');
-const connectionString = `mongodb+srv://services2907:dQQ5nRk2w8UbtA2L@cluster0.eyewh.mongodb.net/checkVar`;
+const connectionString = `mongodb+srv://services2907:XArlXwgXz3Dr20pq@cluster0.eyewh.mongodb.net/checkVar`;
 
 class Database {
     constructor () {

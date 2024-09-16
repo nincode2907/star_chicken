@@ -24,6 +24,15 @@ class HeartController {
 
         return res.status(200).json(response);
     }
+
+    create = async (req, res) => {
+        const response = await HeartService.create();
+        if (!response) {
+            throw new InternalError();
+        }
+
+        return res.status(200).json(response);
+    }
 }
 
 module.exports = new HeartController;

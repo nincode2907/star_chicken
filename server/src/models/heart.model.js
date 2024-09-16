@@ -24,6 +24,11 @@ const heartSchema = new mongoose.Schema({
     Page: {
         type: Number,
         required: true
+    },
+    Source: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Source'
     }
 },
 {
