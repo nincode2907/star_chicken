@@ -5,13 +5,14 @@ import gc
 import time
 from pymongo import MongoClient
 
+import sys
+sys.path.append('./pdf')
+
+from mongo import connectionString, dbName, collectionName
+
 date_pattern = r"(0[1-9]|10)/09/2024"
 doc_no_pattern = r"\b\d{4}\.\d{5}\b"
 amount_pattern = r"(\d{1,3})(\.\d{3})*\.000"
-
-connection_string = "mongodb://localhost:27017/"
-db_name = "checkVar"
-collection_name = "Hearts"
 
 def extract_info_and_content(text):
     date = re.search(date_pattern, text)
@@ -87,7 +88,6 @@ def get_data_to_excel(path):
         df.to_excel('output.xlsx', index=False)
     return df
 
-# print(get_data_to_excel("1_10.pdf"))
 def get_data_to_mongo(path, connection_string, db_name, collection_name):
     client = MongoClient(connection_string)
     db = client[db_name]
@@ -134,7 +134,4 @@ def get_data_to_mongo(path, connection_string, db_name, collection_name):
     client.close()
     return dataframe
 
-# data = get_data_to_mongo("./12001_12028.pdf", connection_string, db_name, collection_name)
-# data = get_data_to_mongo("./1_10.pdf", connection_string, db_name, collection_name)
-
-
+# get_data_to_mongo("1_10.pdf", connectionString, dbName, collectionName)

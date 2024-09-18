@@ -11,10 +11,9 @@ const app = express();
 //     localhost: 'http://localhost:3000'
 // }
 const whitelist = [
-    'https://793a-2402-800-63a7-fa47-68dd-507c-cd8d-23eb.ngrok-free.app',
-    'https://45af-2402-800-63a7-fa47-68dd-507c-cd8d-23eb.ngrok-free.app',
     'http://localhost',
-    '192.168.1.6'
+    '192.168.1.6',
+    '192.168.1.8',
 ];
 
 // middlewares
