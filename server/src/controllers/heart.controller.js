@@ -5,9 +5,9 @@ const HeartService = require("../services/heart.service");
 
 class HeartController {
     started = async (req, res) => {
-        console.log('Received request at /api/v1');
-        // console.log('Request headers:', req.headers);
-        const response = await HeartService.started();
+        const { page } = req.query;
+        
+        const response = await HeartService.started(page);
         if (!response) {
             throw new InternalError();
         }
@@ -16,8 +16,8 @@ class HeartController {
     }
 
     search = async (req, res) => {
-        const { q } = req.query;
-        const response = await HeartService.search(q);
+        const { q, page } = req.query;
+        const response = await HeartService.search(q, page);
         if (!response) {
             throw new InternalError();
         }

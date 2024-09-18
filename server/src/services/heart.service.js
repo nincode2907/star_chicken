@@ -5,8 +5,10 @@ const heartModel = require("../models/heart.model");
 const sourceModel = require("../models/source.model");
 
 class HeartService {
-    static async started () {
-        const data = await heartModel.find({ "Page": { "$in": [1, 2] } }).populate('Source', 'title');
+    static async started (page = 1) {
+        const limit = 100;
+        const skip = (page - 1) * limit;
+        const data = await heartModel.find({ "Page": { "$in": [1, 2] } }).populate('Source', 'title').skip(skip).limit(limit);
         if (!data) {
             throw new InternalError("Couldn't find any data! Please try again later.");
         }
@@ -18,7 +20,7 @@ class HeartService {
         }
     }
 
-    static async search(keyword) {
+    static async search(keyword, page = 1) {
         keyword = keyword.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         const query = {
             $or: [
@@ -31,10 +33,13 @@ class HeartService {
             query.$or.push({ "Amount": Number(keyword) }); 
         }
 
+        const limit = 100;
+        const skip = (page - 1) * limit;
+
         const start = Date.now(); 
 
         const totalCount = await heartModel.countDocuments(query);
-        const data = await heartModel.find(query).populate('Source', 'title').limit(100);
+        const data = await heartModel.find(query).populate('Source', 'title').skip(skip).limit(limit);
         
         const end = Date.now(); 
         const elapsedTime = (end - start) / 1000 / 2;

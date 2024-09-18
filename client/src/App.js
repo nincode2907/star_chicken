@@ -137,6 +137,9 @@ function App() {
           ))}
         </tbody>
       </table>
+      <div className='d-flex justify-content-center'>
+        <Lottie className='text-center' animationData={searchingAnimation} loop={true} style={{ height: 220, width: 340 }} />
+      </div>
     </div>
   );
 }
