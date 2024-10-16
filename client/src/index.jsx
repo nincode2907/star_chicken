@@ -1,11 +1,27 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { StrictMode } from "react";
 import App from "./App";
+import "./css/index.css";
+import ChartView from "./views/ChartView";
+import GridView from "./views/GridView";
+import { MyProvider } from "./context/StateContext";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const router = createBrowserRouter([
+  {
+    element: <App />,
+    children: [
+      { path: "/", element: <GridView /> },
+      { path: "/chart", element: <ChartView /> },
+    ],
+  },
+]);
+
+const root = createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <StrictMode>
+    <MyProvider>
+      <RouterProvider router={router} />
+    </MyProvider>
+  </StrictMode>
 );
